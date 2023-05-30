@@ -62,6 +62,16 @@ void task2(void *pvParameters) {
 // サンプルの場合、ループ内でdelayしかしてないので、CPU負荷が高くなりすぎているのが問題だと思われる
 // task3のようにWDTが有効なコアで実行する場合、
 // esp_task_wdt_add => esp_task_wdt_resetは必要だと思われる
+
+// delay=2msしているのにWDT発動してしまうのはなぜ？
+// https://github.com/espressif/esp-idf/issues/1646
+// 内部的にWDTを監視するタスクがいて、このタスクが十分にリソースを確保できないと
+// 発動してしまうのは仕方がない。デフォルトのティック レート（CONFIG_FREERTOS_HZ）は100Hzで1000Hzに変更すると
+// 2msでもOKになるらしい。※このプロジェクトだとCONFIG_FREERTOS_HZ=100
+
+// ESP32マウスPart.33　ESP-IDFで1 msec delay を作る方法
+// https://rt-net.jp/mobility/archives/10112
+
 void task3(void *pvParameters) {
   ESP_ERROR_CHECK(esp_task_wdt_add(NULL));
   while (1) {
