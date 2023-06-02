@@ -85,6 +85,22 @@ void oneshot_interrupt_task(void *pvParameters){
   vTaskDelete(NULL);  
 }
 
+// https://github.com/espressif/esp-idf/issues/285
+// OUTPUTモード：割込み、プルアップ・ダウンは無効にする => つまり割込みとか使えない内部からのGPIOのHIGH/LOWってことかな？
+// INPUTモード：割込み、プルアップ・ダウンを指定する => 割込みとか使える。外部からの電圧変化の読み取り
+
+// 実際にやった組み合わせ
+// GPIO_MODE_INPUT, pull_down, GPIO_INTR_POSEDGE => 通常LOW、HIGHでトリガー(チャタリングしている)
+// GPIO_MODE_INPUT_OUTPUT, pull_down, GPIO_INTR_POSEDGE => 通常LOW、HIGHでトリガー(チャタリングしている)
+// GPIO_MODE_INPUT, pull_down, GPIO_INTR_NEGEDGE => 通常LOW、HIGHでトリガー(チャタリングしている)
+// GPIO_MODE_INPUT, pull_down, GPIO_INTR_HIGH_LEVEL => HIGHでトリガーするがずっと割込みしてWDT発動する
+
+// GPIO_MODE_INPUT, pull_up, GPIO_INTR_POSEDGE => 通常HIGH、LOWでトリガー(チャタリングしている)
+// GPIO_MODE_INPUT, pull_up, GPIO_INTR_NEGEDGE => 通常HIGH、LOWでトリガー(チャタリングしている)
+
+// GPIO_MODE_OUTPUT, pull_down, GPIO_INTR_POSEDGE => 通常LOW、外部からのHIGH/LOWどちらも反応しない
+
+// esp32-freertos-prog9-eventgroupでは2個のGPIOトリガーの設定を行っている。そちらも参照
 
 void oneshot_blink(void *pvParameters){
   ESP_LOGI(TAG, "oneshot_blink start ===>");

@@ -79,6 +79,8 @@ void task4(void *pvParameters) {
 // バイナリセマフォ:上限1個のキューのようなもの
 // カウンティングセマフォ:上限2個以上のキューのようなもの
 
+// 再帰的ミューテックスってのものあって、I2Cの処理で使われている
+
 // pio run -e esp32s3box -t upload
 
 void app_main(){
