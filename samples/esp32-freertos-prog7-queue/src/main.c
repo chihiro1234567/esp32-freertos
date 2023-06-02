@@ -15,7 +15,7 @@ static const char *TAG = "test1";
 
 TaskHandle_t taskHandle;
 TaskHandle_t taskHandle2;
-QueueHandle_t xQueueHandle;
+volatile QueueHandle_t xQueueHandle;
 
 void delay_ms(uint32_t ms){
   vTaskDelay(ms / portTICK_PERIOD_MS);
