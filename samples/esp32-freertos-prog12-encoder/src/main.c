@@ -38,9 +38,9 @@ void IRAM_ATTR gpio_isr_edge_handler(void *arg){
   
   // もう片方のC2パルスのLevel
   // どうもC1の立ち上がりエッジのときにC2は、
-  // 正回転：C1=HIGH, C2=HIGH
-  // 逆回転：C1=HIGH, C2=LOW
-  // らしい
+  // 正回転：C1=HIGH, C2=LOW
+  // 逆回転：C1=HIGH, C2=HIGH
+  // https://edn.itmedia.co.jp/edn/articles/1203/16/news012_2.html
   direction_forward = gpio_get_level(GPIO_NUM_6);
 
   // 高頻度で割込みを発生させると、コンソール出力でエラーになる
