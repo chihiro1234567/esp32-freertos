@@ -58,9 +58,9 @@ void IRAM_ATTR timer_isr_handler(void *arg){
 
 #define TIMER_SCALE   (APB_CLK_FREQ / TIMER_DIVIDER)
 // 分周比dividerを設定すると、たとえばdivider=80だと80MHz/80=1MHzでカウントするようになる
-// alarm_value=1だと、1MHzで1カウントになるので、1/10000000=0.0000001=1usecで発動。だいぶわかりやすくなる。
-// なのでalarm_value=10000000とすれば、1secで発動するようになる。
-// TIMER_SCALE=10000000、1secを1スケールとしている。
+// alarm_value=1だと、1MHzで1カウントになるので、1/1000000=0.000001=1usecで発動。だいぶわかりやすくなる。
+// なのでalarm_value=1000000とすれば、1secで発動するようになる。
+// TIMER_SCALE=1000000、1secを1スケールとしている。
 // 0.5secなら 0.5 x TIMER_SCALE, 0.01sec => 0.01 x TIMER_SCALEでtimer_set_alarm_value()にセットするようにしている
 
 static void example_tg_timer_init(int group, int timer, bool auto_reload, int timer_interval_sec)
